@@ -9,6 +9,7 @@ const gui = new dat.GUI();
 // MAterial - used to put color of each pixel
 
 const textureLoader = new THREE.TextureLoader();
+const cubeTextureLoader = new THREE.CubeTextureLoader();
 
 const doorColorTexture = textureLoader.load('/textures/door/color.jpg');
 const doorAlphaTexture = textureLoader.load('/textures/door/alpha.jpg');
@@ -133,11 +134,31 @@ scene.add(pointLight);
 // material.gradientMap = gradientTexture;
 
 //this kind rendered on real physics algoritms
-const material = new THREE.MeshStandardMaterial();
+// const material = new THREE.MeshStandardMaterial();
 //this kind of material its more realistic of all
 //here we can use cool things
 // material.metalness = 0.3;
 // material.roughness = 0.5;
+
+const material = new THREE.MeshStandardMaterial();
+
+material.metalness = 0.7;
+material.roughness = 0.2;
+
+//ENVIRONMENT MAP
+//HDRIHaven website
+//Used for environment or scene decoration
+//this type of maps supports only cube presentation
+//and create it from six edges
+const environmentMapTexture = cubeTextureLoader.load([
+    '/textures/environmentMaps/1/px.jpg',
+    '/textures/environmentMaps/1/nx.jpg',
+    '/textures/environmentMaps/1/py.jpg',
+    '/textures/environmentMaps/1/ny.jpg',
+    '/textures/environmentMaps/1/pz.jpg',
+    '/textures/environmentMaps/1/nz.jpg'
+]);
+material.envMap = environmentMapTexture;
 
 gui.add(material, 'metalness')
     .min(0)
@@ -154,27 +175,33 @@ gui.add(material, 'displacementScale')
     .max(1)
     .step(0.001);
 
-//here we can add ambient oclusion texture bat if we have texture like our picture texture
+//here we can add ambient oclusion texture but if we have texture like our picture texture
 //we need to place it correctly like picture lays
 //because it add shadows like 3d object but it only effect not real
 
-material.map = doorColorTexture;  
-material.aoMap = doorAmbientOcclusionTexture;
-material.aoMapIntensity = 4;
-material.displacementMap = doorHeightTexture;
+// material.map = doorColorTexture;  
+// material.aoMap = doorAmbientOcclusionTexture;
+// material.aoMapIntensity = 4;
+// material.displacementMap = doorHeightTexture;
+// //give more details for texture
+// material.normalMap = doorNormalTexture;
+// material.normalScale.set(0.5, 0.5);
+// //also we can use alpha map
+// material.transparent = true;
+// material.alphaMap = doorAlphaTexture;
 
-//here we control scale of mapping height
-material.displacementScale = 0.02;
+// //here we control scale of mapping height
+// material.displacementScale = 0.02;
 
 //also we can map roughtnes and metalness
 //for better result dont combine with 
 // material.metalness = 0.3;
 // material.roughness = 0.5;
-material.metalnessMap = doorMetalnessTexture;
-material.roughnessMap = doorRoughnessTexture;
+// material.metalnessMap = doorMetalnessTexture;
+// material.roughnessMap = doorRoughnessTexture;
 
 const sphere = new THREE.Mesh(
-    new THREE.SphereBufferGeometry(0.5, 16, 16),
+    new THREE.SphereBufferGeometry(0.5, 34, 34),
     material
 );
 
