@@ -25,7 +25,7 @@ fontLoader.load(
     (font) => { //first arg is would be loaded font object
         //here we can create and add something to the scene
         const textGeometry = new TextGeometry(
-            'Zhen*Shen', //here our text what will be render
+            'Zhen*She', //here our text what will be render
             { //object with a lot of settings
                 font, //loaded font
                 size: 0.5,
@@ -45,14 +45,23 @@ fontLoader.load(
 
         //by default we have sphere bounding bat it harder for computer then box
         //so we can change this to optimize program for text geometry
-        textGeometry.computeBoundingBox();
-        //after that we have ability to use Box3 coordinates of mesh wrap
+        // textGeometry.computeBoundingBox();
+        // //after that we have ability to use Box3 coordinates of mesh wrap
+
+        // // if we want to position our shape we must move geometry not mesh
+        // //because we want to save boundings to axis rotation
+        // textGeometry.translate(
+        //     - (textGeometry.boundingBox.max.x - 0.02) * 0.5,
+        //     - (textGeometry.boundingBox.max.y - 0.02) * 0.5,
+        //     - (textGeometry.boundingBox.max.z - 0.03) * 0.5
+        // );
+
+        //but we can center our shape mush easier...))
+        textGeometry.center();
         
         const text = new THREE.Mesh(
             textGeometry,
-            new THREE.MeshBasicMaterial({
-                wireframe: true,
-            })
+            material
         );
         scene.add(text);
     }
@@ -78,7 +87,8 @@ const scene = new THREE.Scene()
 /**
  * Textures
  */
-const textureLoader = new THREE.TextureLoader()
+const textureLoader = new THREE.TextureLoader();
+const matcapMaterial = textureLoader.load('/textures/matcaps/5.png');
 
 /**
  * Object
@@ -90,8 +100,8 @@ const textureLoader = new THREE.TextureLoader()
 
 // scene.add(cube)
 
-const axisHelper = new THREE.AxisHelper();
-scene.add(axisHelper);
+// const axisHelper = new THREE.AxisHelper();
+// scene.add(axisHelper);
 
 /**
  * Sizes
@@ -121,10 +131,35 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 1
-camera.position.y = 1
-camera.position.z = 2
-scene.add(camera)
+camera.position.x = 1;
+camera.position.y = 1;
+camera.position.z = 2;
+scene.add(camera);
+
+//IMPORTANT
+//WE MUST CREATE MATERIAL AND GEOMETRIES OUTSIDE OF LOOP
+//IT VERY GOOD PRACTICE FOR OPTIMIZATION
+const donutGeometry = new THREE.TorusBufferGeometry(0.3, 0.2, 20, 45);
+const material = new THREE.MeshMatcapMaterial({
+    matcap: matcapMaterial,
+});
+
+for (let i = 0; i < 300; i++) {
+    const donut = new THREE.Mesh(donutGeometry, material);
+
+    donut.position.x = (Math.random() - 0.5) * 10;
+    donut.position.y = (Math.random() - 0.5) * 10;
+    donut.position.z = (Math.random() - 0.5) * 10;
+
+    donut.rotation.x = Math.random() * Math.PI;
+    donut.rotation.y = Math.random() * Math.PI;
+
+    const scale = Math.random()
+
+    donut.scale.set(scale, scale, scale);
+
+    scene.add(donut);
+};
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
