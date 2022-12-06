@@ -2,34 +2,35 @@ import * as THREE from 'three';
 import textureLoader from '../textureLoader';
 
 //Grass Textures
-const grassColorTexture = textureLoader.load('/textures/grass/color.jpg');
-const grassAmbientOcclusionTexture = textureLoader.load('/textures/grass/ambientOcclusion.jpg');
-const grassNormalTexture = textureLoader.load('/textures/grass/normal.jpg');
-const grassRoughnessTexture = textureLoader.load('/textures/grass/roughness.jpg');
+const groundColorTexture = textureLoader.load('/textures/ground/color.jpg');
+const groundAmbientOcclusionTexture = textureLoader.load('/textures/ground/ambientOcclusion.jpg');
+const groundNormalTexture = textureLoader.load('/textures/ground/normal.jpg');
+const groundRoughnessTexture = textureLoader.load('/textures/ground/roughness.jpg');
 
 //To reduce scale of texture we need do that with all textures
-grassColorTexture.repeat.set(8, 8, 8);
-grassAmbientOcclusionTexture.repeat.set(8, 8, 8);
-grassNormalTexture.repeat.set(8, 8, 8);
-grassRoughnessTexture.repeat.set(8, 8, 8);
+groundColorTexture.repeat.set(8, 8, 8);
+groundAmbientOcclusionTexture.repeat.set(8, 8, 8);
+groundNormalTexture.repeat.set(8, 8, 8);
+groundRoughnessTexture.repeat.set(8, 8, 8);
 
-grassColorTexture.wrapS = THREE.RepeatWrapping;
-grassAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping;
-grassNormalTexture.wrapS = THREE.RepeatWrapping;
-grassRoughnessTexture.wrapS = THREE.RepeatWrapping;
+groundColorTexture.wrapS = THREE.RepeatWrapping;
+groundAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping;
+groundNormalTexture.wrapS = THREE.RepeatWrapping;
+groundRoughnessTexture.wrapS = THREE.RepeatWrapping;
 
-grassColorTexture.wrapT = THREE.RepeatWrapping;
-grassAmbientOcclusionTexture.wrapT = THREE.RepeatWrapping;
-grassNormalTexture.wrapT = THREE.RepeatWrapping;
-grassRoughnessTexture.wrapT = THREE.RepeatWrapping;
+groundColorTexture.wrapT = THREE.RepeatWrapping;
+groundAmbientOcclusionTexture.wrapT = THREE.RepeatWrapping;
+groundNormalTexture.wrapT = THREE.RepeatWrapping;
+groundRoughnessTexture.wrapT = THREE.RepeatWrapping;
+
 
 const floor = new THREE.Mesh(
   new THREE.PlaneGeometry(20, 20),
   new THREE.MeshStandardMaterial({
-      map: grassColorTexture,
-      aoMap: grassAmbientOcclusionTexture,
-      normalMap: grassNormalTexture,
-      roughnessMap: grassRoughnessTexture,
+      map: groundColorTexture,
+      aoMap: groundAmbientOcclusionTexture,
+      normalMap: groundNormalTexture,
+      roughnessMap: groundRoughnessTexture,
       roughness: 1,
       metalness: 0.1
   })
