@@ -54,3 +54,9 @@ export const houseStairs = [
         zPosition: -0.2,
     },
 ];
+
+export const graveText = [
+  'wtf.jpg',
+  'ket.jpg',
+  'text.jpg',
+];

@@ -41,7 +41,7 @@ scene.add(
 // Ambient light
 const ambientLight = new THREE.AmbientLight('#b9d5ff', 0.12);
 
-gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001);
+// gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001);
 
 scene.add(ambientLight);
 

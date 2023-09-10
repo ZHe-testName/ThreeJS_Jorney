@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import textureLoader from '../../textureLoader';
 
 import { houseStairs } from '../../data';
 

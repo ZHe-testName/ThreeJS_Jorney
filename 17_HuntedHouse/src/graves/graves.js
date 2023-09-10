@@ -3,11 +3,19 @@ import { Mesh } from 'three';
 
 import textureLoader from '../textureLoader';
 
+import { graveText } from '../data';
+
 const graveColorTexture = textureLoader.load('/textures/grave/color.jpg');
 const graveAmbientOcclusionTexture = textureLoader.load('/textures/grave/ambientOcclusion.jpg');
 const graveNormalTexture = textureLoader.load('/textures/grave/normal.jpg');
 const graveRoughnessTexture = textureLoader.load('/textures/grave/roughness.jpg');
 // const graveHeightTexture = textureLoader.load('/textures/grave_hill/height.png');
+
+// const textAlphaTexture = textureLoader.load('/textures/grave/text.jpg');
+
+const textTextureArray = graveText.map(name => textureLoader.load(`/textures/grave/text/${name}`));
+
+// console.log(textTextureArray);
 
 const hillColorTexture = textureLoader.load('/textures/grave_hill/color.jpg');
 const hillAmbientOcclusionTexture = textureLoader.load('/textures/grave_hill/ambientOcclusion.jpg');
@@ -26,6 +34,15 @@ const graveMaterial = new THREE.MeshStandardMaterial({
     roughness: 6,
 });
 
+// const graveMaterialWithText = new THREE.MeshStandardMaterial({
+//     map: graveColorTexture,
+//     aoMap: graveAmbientOcclusionTexture,
+//     normalMap: graveNormalTexture,
+//     roughnessMap: graveRoughnessTexture,
+//     roughness: 6,
+//     map: textAlphaTexture,
+// });
+
 const graveHillGeometry = new THREE.SphereBufferGeometry(0.3, 24, 24);
 const graveHillMaterial = new THREE.MeshStandardMaterial({
     transparent: true,
@@ -38,12 +55,27 @@ const graveHillMaterial = new THREE.MeshStandardMaterial({
     displacementScale: 0.3,
 });
 
-for (let i = 0; i < 25; i++) {
+for (let i = 0; i < textTextureArray.length; i++) {
     const grave = new THREE.Group();
 
     const graveMesh = new THREE.Mesh(
         graveGeometry,
-        graveMaterial
+        [   
+            graveMaterial,
+            graveMaterial,
+            graveMaterial,
+            graveMaterial,
+            // graveMaterialWithText,
+            new THREE.MeshStandardMaterial({
+                map: graveColorTexture,
+                aoMap: graveAmbientOcclusionTexture,
+                normalMap: graveNormalTexture,
+                roughnessMap: graveRoughnessTexture,
+                roughness: 6,
+                map: textTextureArray[i],
+            }),
+            graveMaterial,
+        ]
     );
 
     const hillMesh = new Mesh(
